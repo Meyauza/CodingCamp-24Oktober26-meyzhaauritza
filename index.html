@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="warm">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura // Minimalist Life Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Top Navigation / Header -->
+        <header class="top-nav">
+            <div class="brand">
+                <span class="logo-icon"><i class="fa-solid fa-compass"></i></span>
+                <span class="logo-text">Aura Hub</span>
+            </div>
+            <div class="theme-switcher">
+                <button id="themeToggleBtn" title="Ganti Tema">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Hero Greeting Section -->
+        <section class="hero-section">
+            <div class="time-box">
+                <span id="liveClock">00:00:00</span>
+                <span class="dot">•</span>
+                <span id="liveDate">Memuat tanggal...</span>
+            </div>
+            <h1 class="greeting-title">
+                <span id="greetingText">Selamat Pagi</span>, 
+                <span id="displayName" class="editable-name" title="Klik untuk ubah nama">Pengguna</span>
+                <button id="editNameBtn" class="edit-pin-btn"><i class="fa-solid fa-pen-nib"></i></button>
+            </h1>
+        </section>
+
+        <!-- Bento Grid Dashboard Layout -->
+        <div class="bento-grid">
+            
+            <!-- Box 1: Focus Timer (Pomodoro) -->
+            <div class="bento-card timer-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-stopwatch"></i> Focus Timer</h3>
+                    <button id="settingsTimerBtn" class="action-icon-btn" title="Atur Waktu"><i class="fa-solid fa-sliders"></i></button>
+                </div>
+
+                <!-- Timer Settings Drawer -->
+                <div id="timerSettingsPanel" class="timer-settings-drawer hidden">
+                    <div class="setting-field">
+                        <label>Fokus (mnt)</label>
+                        <input type="number" id="focusTimeInput" value="25" min="1" max="120">
+                    </div>
+                    <div class="setting-field">
+                        <label>Istirahat (mnt)</label>
+                        <input type="number" id="breakTimeInput" value="5" min="1" max="60">
+                    </div>
+                    <button id="saveTimerSettings" class="btn-save-sm">Simpan</button>
+                </div>
+
+                <div class="timer-display-box">
+                    <div id="timerDigits" class="timer-digits">25:00</div>
+                    <div id="timerModeLabel" class="timer-mode-badge">Sesi Fokus</div>
+                </div>
+
+                <div class="timer-actions">
+                    <button id="startTimerBtn" class="btn-primary">Mulai</button>
+                    <button id="stopTimerBtn" class="btn-secondary">Jeda</button>
+                    <button id="resetTimerBtn" class="btn-text">Reset</button>
+                </div>
+            </div>
+
+            <!-- Box 2: Quick Links -->
+            <div class="bento-card links-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
+                </div>
+
+                <form id="linkForm" class="inline-form">
+                    <input type="text" id="linkNameInput" placeholder="Judul..." required autocomplete="off">
+                    <input type="url" id="linkUrlInput" placeholder="https://..." required autocomplete="off">
+                    <button type="submit" class="btn-square" title="Tambah Link"><i class="fa-solid fa-plus"></i></button>
+                </form>
+
+                <div class="links-scroll-area" id="linksContainer">
+                    <!-- Dynamic Links -->
+                </div>
+            </div>
+
+            <!-- Box 3: To-Do List (Spans across or full right column) -->
+            <div class="bento-card tasks-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-clipboard-list"></i> To-Do List</h3>
+                    <span id="taskStats" class="badge-count">0/0 selesai</span>
+                </div>
+
+                <form id="taskForm" class="inline-form">
+                    <input type="text" id="taskInput" placeholder="Tulis aktivitas baru..." required autocomplete="off">
+                    <button type="submit" class="btn-primary">Tambah</button>
+                </form>
+
+                <div class="tasks-toolbar">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all">Semua</button>
+                        <button class="filter-btn" data-filter="active">Aktif</button>
+                        <button class="filter-btn" data-filter="completed">Selesai</button>
+                    </div>
+                    <div class="sort-group">
+                        <select id="sortTasksSelect" class="select-clean">
+                            <option value="default">Urutan: Default</option>
+                            <option value="az">Abjad (A-Z)</option>
+                            <option value="za">Abjad (Z-A)</option>
+                            <option value="status">Status (Belum dulu)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="tasks-scroll-area" id="tasksContainer">
+                    <!-- Dynamic Tasks -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Edit Name Modal -->
+    <div id="nameModal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <h3>Ubah Nama Panggilan</h3>
+            <p>Masukkan nama atau sapaan yang ingin ditampilkan pada dashboard.</p>
+            <input type="text" id="modalNameInput" placeholder="Nama Anda..." autocomplete="off">
+            <div class="modal-buttons">
+                <button id="cancelNameBtn" class="btn-text">Batal</button>
+                <button id="saveNameBtn" class="btn-primary">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
